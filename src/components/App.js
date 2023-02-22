@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
-import PopupWithForm from "./PopupWithForm";
+// import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
@@ -11,10 +11,15 @@ import AddPlacePopup from "./AddPlacePopup";
 import "../index.css";
 
 function App() {
+
+  //Начальные стейты
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = React.useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+
+  //Выбранная карточка
   const [selectedCard, setSelectedCard] = React.useState(null);
+
 
   // Обработчики событий //
   function handleEditAvatarClick() {
@@ -25,6 +30,7 @@ function App() {
     // debugger
   }
 
+  // Обработчики кликов на открытие попапов
   function handleEditProfileClick() {
     setIsProfilePopupOpen(true);
   }
@@ -37,7 +43,7 @@ function App() {
     setSelectedCard(card);
   }
 
-
+  //Закрываем все окна
   function closeAllPopups() {
     setIsAvatarPopupOpen(false);
     setIsProfilePopupOpen(false);
@@ -52,11 +58,13 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onEditAvatar={handleEditAvatarClick}
         onAddPlace={handleAddPlaceClick}
-        onCardClick={handleCardClick}
-        
+        onCardClick={handleCardClick} // пробрасываем selectedCard в Main        
       />
+      
       {/* <PopupWithForm /> */}
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+
+      {/* пробрасываем selectedCard в ImagePopup */}
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} /> 
 
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
       <EditProfilePopup isOpen={isProfilePopupOpen} onClose={closeAllPopups} />

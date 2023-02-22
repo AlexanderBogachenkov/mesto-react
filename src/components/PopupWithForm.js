@@ -7,6 +7,7 @@ function PopupWithForm({isOpen, name, title, buttonTitle, onClose, children}) {
       
 <>
 
+{/* Если isOpen true добавляем popup_opened tag */}
 <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}>
 
       <div className="popup__container">

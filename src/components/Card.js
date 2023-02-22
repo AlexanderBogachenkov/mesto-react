@@ -1,12 +1,13 @@
 import React from "react";
-import ImagePopup from "./ImagePopup";
+// import ImagePopup from "./ImagePopup";
 
 
 function Card({ card, onCardClick }) {
   // console.log(card)
 
   function handleClick() {
-    onCardClick(card);
+    onCardClick(card); //пробрасываем selectedCard из App -> Main -> Card
+    
     // console.log(card.name)
     // <ImagePopup card={card} />
 
@@ -25,8 +26,6 @@ function Card({ card, onCardClick }) {
         </div>
         <button type="button" className="grid__delete-button"></button>
       </li>
-  
-
   );
 }
 

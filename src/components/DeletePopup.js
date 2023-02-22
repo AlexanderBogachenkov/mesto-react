@@ -1,4 +1,6 @@
-<div class="popup popup-type-delete">
+//Пока не используем
+
+{/* <div class="popup popup-type-delete">
   <div class="popup__container">
     <form class="popup__content popup__delete-container">
       <button
@@ -15,4 +17,4 @@
       </button>
     </form>
   </div>
-</div>;
+</div> */}

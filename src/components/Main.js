@@ -1,21 +1,23 @@
 import React from "react";
 import { api } from "../utils/Api";
 import Card from "./Card";
-
 // import kusto from ".././images/kusto.jpg";
 
 function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
+//При каждом рендере
   React.useEffect(() => {
-    // Общий промис
+
+    // Общий промис - получаем данные юзера и карточки сайта
     Promise.all([api.getUserData(), api.getInitialCards()])
       .then(([userServerData, cardsData]) => {
-        // console.log(userServerData, cardsData)
+        
+        //Если ок, в стейт идут userServerData и cardsData
         setCurrentUser(userServerData);
         setCards(cardsData);
-        // console.log(cards[0].likes);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -56,11 +58,12 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
 
       <section className="grids" aria-label="Места мира">
         <ul className="grid">
-
+        
+        {/* Вставляем карточки */}
         {cards.map((card) => (
           <Card 
             card={card} key={card._id}
-            onCardClick={onCardClick}
+            onCardClick={onCardClick} //пробрасываем selectedCard из App в Card
             />
         ))}
 
