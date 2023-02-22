@@ -2,32 +2,27 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
-// import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import AddPlacePopup from "./AddPlacePopup";
-
-import "../index.css";
+import DeletePopup from "./DeletePopup";
 
 function App() {
-
   //Начальные стейты
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = React.useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isDeletePlacePopupOpen, setIsDeletePlacePopupOpen] =
+    React.useState(false);
 
   //Выбранная карточка
   const [selectedCard, setSelectedCard] = React.useState(null);
-
 
   // Обработчики событий //
   function handleEditAvatarClick() {
     setIsAvatarPopupOpen(true);
     EditAvatarPopup(isAvatarPopupOpen);
-    // console.log('Обработчики событий всех popup')
-    // console.log(isAvatarPopupOpen)
-    // debugger
   }
 
   // Обработчики кликов на открытие попапов
@@ -43,12 +38,17 @@ function App() {
     setSelectedCard(card);
   }
 
+  function handleDeletePlaceClick() {
+    setIsDeletePlacePopupOpen(true);
+  }
+
   //Закрываем все окна
   function closeAllPopups() {
     setIsAvatarPopupOpen(false);
     setIsProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setIsDeletePlacePopupOpen(false);
   }
 
   return (
@@ -58,20 +58,19 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onEditAvatar={handleEditAvatarClick}
         onAddPlace={handleAddPlaceClick}
-        onCardClick={handleCardClick} // пробрасываем selectedCard в Main        
+        onCardClick={handleCardClick} // пробрасываем selectedCard в Main
+        onDeleteClick={handleDeletePlaceClick}
       />
-      
-      {/* <PopupWithForm /> */}
 
       {/* пробрасываем selectedCard в ImagePopup */}
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} /> 
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
       <EditProfilePopup isOpen={isProfilePopupOpen} onClose={closeAllPopups} />
       <EditAvatarPopup isOpen={isAvatarPopupOpen} onClose={closeAllPopups} />
+
+      <DeletePopup isOpen={isDeletePlacePopupOpen} onClose={closeAllPopups} />
       <Footer />
-
-
     </div>
   );
 }
