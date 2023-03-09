@@ -1,3 +1,5 @@
+import React from "react";
+
 function PopupWithForm({
   isOpen,
   name,
@@ -5,6 +7,7 @@ function PopupWithForm({
   buttonTitle,
   onClose,
   children,
+  onSubmit,
 }) {
   return (
     <>
@@ -16,6 +19,7 @@ function PopupWithForm({
           <form
             className={`popup__content popup__content_type_${name}`}
             name={name}
+            onSubmit={onSubmit}
           >
             <button
               className="popup__close-button animate-link animate-link_deeper"

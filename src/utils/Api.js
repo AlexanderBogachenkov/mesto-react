@@ -28,24 +28,24 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  changeUserData(data) {    
+  changeUserData(data) {
     return fetch(`${this._baseUrl}${"users/me"}`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.profileName,
-        about: data.popup__profileDescription_form
+        name: data.name,
+        about: data.about,
       }),
     }).then(this._checkResponse);
   }
 
-  addCard(data) {    
+  addCard(data) {
     return fetch(`${this._baseUrl}${"cards"}`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.placeName,
-        link: data.placeUrl
+        name: data.name,
+        link: data.link,
       }),
     }).then(this._checkResponse);
   }
@@ -57,7 +57,6 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  
   addLikeToCard(cardId) {
     return fetch(`${this._baseUrl}${"cards/likes/"}${cardId}`, {
       method: "PUT",
@@ -71,7 +70,6 @@ class Api {
       headers: this._headers,
     }).then(this._checkResponse);
   }
-  
 
   changeAvatar({ avatar }) {
     return fetch(`${this._baseUrl}${"users/me/avatar"}`, {
@@ -82,7 +80,6 @@ class Api {
       }),
     }).then(this._checkResponse);
   }
-
 }
 
 export const api = new Api({
@@ -92,4 +89,3 @@ export const api = new Api({
     "Content-Type": "application/json",
   },
 });
-

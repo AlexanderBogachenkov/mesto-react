@@ -1,5 +1,6 @@
 import React from "react";
-import { api } from "../utils/Api";
+// import { api } from "../utils/Api";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Card from "./Card";
 
 function Main({
@@ -7,24 +8,29 @@ function Main({
   onEditProfile,
   onAddPlace,
   onCardClick,
-  onDeleteClick,
+  onCardDelete,
+  onCardLike,
+  cards,
 }) {
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [cards, setCards] = React.useState([]);
+  const currentUser = React.useContext(CurrentUserContext);
+  // const [currentUser, setCurrentUser] = React.useState({});
+  // const [cards, setCards] = React.useState([]);
+
+  // console.log(currentUser);
 
   //При каждом рендере
-  React.useEffect(() => {
-    // Общий промис - получаем данные юзера и карточки сайта
-    Promise.all([api.getUserData(), api.getInitialCards()])
-      .then(([userServerData, cardsData]) => {
-        //Если ок, в стейт идут userServerData и cardsData
-        setCurrentUser(userServerData);
-        setCards(cardsData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // React.useEffect(() => {
+  //   // Общий промис - получаем данные юзера и карточки сайта
+  //   Promise.all([api.getInitialCards()])
+  //     .then(([cardsData]) => {
+  //       //Если ок, в стейт идут userServerData и cardsData
+  //       // setCurrentUser(userServerData);
+  //       setCards(cardsData);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   return (
     <main className="page__content">
@@ -66,7 +72,8 @@ function Main({
               card={card}
               key={card._id}
               onCardClick={onCardClick} //пробрасываем selectedCard из App в Card
-              onDeleteClick={onDeleteClick}
+              onCardDelete={onCardDelete}
+              onCardLike={onCardLike}
             />
           ))}
         </ul>

@@ -1,7 +1,40 @@
 import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-function EditProfilePopup({ isOpen, onClose }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+  const [name, setName] = React.useState("Jacques Cousteau");
+  const [description, setDescription] = React.useState("Sailor, researcher");
+
+  // Подписка на контекст
+  const currentUser = React.useContext(CurrentUserContext);
+
+  // После загрузки текущего пользователя из API
+  // его данные будут использованы в управляемых компонентах.
+  React.useEffect(() => {
+    setName(currentUser.name || "");
+    setDescription(currentUser.about || "");
+  }, [currentUser]);
+
+  function handleChangeName(e) {
+    setName(e.target.value);
+  }
+
+  function handleChangeDescription(e) {
+    setDescription(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+
+    // Передаём значения управляемых компонентов во внешний обработчик
+    onUpdateUser({
+      name: name,
+      about: description,
+    });
+  }
+
   return (
     <PopupWithForm
       isOpen={isOpen}
@@ -9,6 +42,7 @@ function EditProfilePopup({ isOpen, onClose }) {
       name="profile-form"
       title="Редактировать профиль"
       buttonTitle="Сохранить"
+      onSubmit={handleSubmit}
     >
       <input
         placeholder="Отредактируй имя"
@@ -19,6 +53,8 @@ function EditProfilePopup({ isOpen, onClose }) {
         minLength="2"
         maxLength="40"
         required
+        value={name}
+        onChange={handleChangeName}
       />
       <span id="profail-name-error" className="popup__error"></span>
       <input
@@ -30,6 +66,8 @@ function EditProfilePopup({ isOpen, onClose }) {
         minLength="2"
         maxLength="200"
         required
+        value={description}
+        onChange={handleChangeDescription}
       />
       <span id="profail-description-error" className="popup__error"></span>
     </PopupWithForm>

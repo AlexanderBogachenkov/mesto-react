@@ -1,11 +1,29 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+  const nameRef = React.useRef("");
+  const linkRef = React.useRef("");
+
+  React.useEffect(() => {
+    nameRef.current.value = "";
+    linkRef.current.value = "";
+  }, [isOpen]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    onAddPlace({
+      name: nameRef.current.value,
+      link: linkRef.current.value,
+    });
+  }
+
   return (
     <PopupWithForm
       isOpen={isOpen}
       onClose={onClose}
+      onSubmit={handleSubmit}
       name="add-place-form"
       title="Новое место"
       buttonTitle="Создать"
@@ -20,6 +38,7 @@ function AddPlacePopup({ isOpen, onClose }) {
         minLength="2"
         maxLength="30"
         required
+        ref={nameRef}
       />
       <span id="place-name-error" className="popup__error"></span>
       <input
@@ -29,6 +48,7 @@ function AddPlacePopup({ isOpen, onClose }) {
         className="popup-add-place__type popup-add-place__type_src popup__input"
         type="url"
         required
+        ref={linkRef}
       />
       <span id="place-url-error" className="popup__error"></span>
     </PopupWithForm>
