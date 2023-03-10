@@ -19,7 +19,7 @@ function App() {
     React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
-  // const [cardForDelete, setCardForDelete] = React.useState({});
+  const [cardForDelete, setCardForDelete] = React.useState({});
 
   //При каждом рендере
   React.useEffect(() => {
@@ -35,15 +35,12 @@ function App() {
       });
   }, []);
 
-  // console.log(cards);
-
   //Выбранная карточка
   const [selectedCard, setSelectedCard] = React.useState(null);
 
   // Обработчики событий //
   function handleEditAvatarClick() {
     setIsAvatarPopupOpen(true);
-    EditAvatarPopup(isAvatarPopupOpen);
   }
 
   // Обработчики кликов на открытие попапов
@@ -62,9 +59,8 @@ function App() {
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    // console.log(isLiked);
-    // Отправляем запрос в API и получаем обновлённые данные карточки
 
+    // Отправляем запрос в API и получаем обновлённые данные карточки
     if (!isLiked)
       api
         .addLikeToCard(card._id)
@@ -90,28 +86,24 @@ function App() {
         });
   }
 
-  // function handleDeletePlaceClick(card) {
-  //   setIsDeletePlacePopupOpen(true);
-  //   setCardForDelete(card);
-  //   console.log(cardForDelete._id);
-  // }
+  function handleDeletePlaceClick(card) {
+    setIsDeletePlacePopupOpen(true);
+    setCardForDelete(card);
+  }
 
-  function handleCardDelete(card) {
-    // e.preventDefault();
-    // console.log(cardForDelete._id);
+  function handleCardDelete(e) {
+    e.preventDefault();
     api
-      .deleteCard(card._id)
+      .deleteCard(cardForDelete._id)
       .then(() => {
-        const newCards = cards.filter((elem) => elem !== card);
+        const newCards = cards.filter((elem) => elem !== cardForDelete);
         setCards(newCards);
-        // closeAllPopups();
+        closeAllPopups();
       })
       .catch((err) => console.log(err));
   }
 
   function handleUpdateUser(userData) {
-    // console.log(userData);
-
     api
       .changeUserData(userData)
       .then((data) => {
@@ -134,7 +126,6 @@ function App() {
   }
 
   function handleAddPlaceSubmit(data) {
-    console.log("Start add");
     api
       .addCard(data)
       .then((newCard) => {
@@ -142,7 +133,6 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => console.log(err));
-    console.log("End add");
   }
 
   //Закрываем все окна
@@ -163,7 +153,7 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick} // пробрасываем selectedCard в Main
-          onCardDelete={handleCardDelete}
+          onCardDelete={handleDeletePlaceClick}
           onCardLike={handleCardLike}
           cards={cards}
         />

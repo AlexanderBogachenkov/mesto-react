@@ -22,37 +22,8 @@ function useEscapeKey(handleClose) {
   }, [handleEscKey]);
 }
 
-// const MOUSE_UP = "mouseup";
-// function useOutsideClick(handleClose, ref) {
-//   // console.log(ref.current);
-
-//   const handleClick = useCallback(
-//     (event) => {
-//       // console.log("event.target -> ", event.target);
-//       // console.log("ref.current -> ", ref.current);
-
-//       if (ref?.current?.contains && !ref.current.contains(event.target)) {
-//         // if (ref.current !== event.target)
-//         handleClose();
-//       }
-//     },
-//     [handleClose, ref]
-//   );
-
-//   useEffect(() => {
-//     document.addEventListener(MOUSE_UP, handleClick);
-
-//     return () => {
-//       document.removeEventListener(MOUSE_UP, handleClick);
-//     };
-//   }, [handleClick]);
-// }
-
 function ImagePopup({ card, onClose }) {
   useEscapeKey(onClose);
-
-  // const ref = React.useRef(null);
-  // useOutsideClick(onClose, ref);
 
   return (
     //Если кард true добавляем popup_opened tag
@@ -74,7 +45,6 @@ function ImagePopup({ card, onClose }) {
           className="popup__image"
           src={card ? card.link : ""}
           alt={card ? card.name : ""}
-          // ref={ref}
         />
         <h4 className="popup__image-name" aria-label="Название места">
           {card ? card.name : ""}

@@ -1,5 +1,4 @@
 import React from "react";
-// import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Card from "./Card";
 
@@ -13,24 +12,6 @@ function Main({
   cards,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
-  // const [currentUser, setCurrentUser] = React.useState({});
-  // const [cards, setCards] = React.useState([]);
-
-  // console.log(currentUser);
-
-  //При каждом рендере
-  // React.useEffect(() => {
-  //   // Общий промис - получаем данные юзера и карточки сайта
-  //   Promise.all([api.getInitialCards()])
-  //     .then(([cardsData]) => {
-  //       //Если ок, в стейт идут userServerData и cardsData
-  //       // setCurrentUser(userServerData);
-  //       setCards(cardsData);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   return (
     <main className="page__content">

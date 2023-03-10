@@ -9,6 +9,8 @@ function PopupWithForm({
   children,
   onSubmit,
 }) {
+  const [buttonText, setButtonText] = React.useState(buttonTitle);
+
   return (
     <>
       {/* Если isOpen true добавляем popup_opened tag */}
@@ -31,8 +33,17 @@ function PopupWithForm({
 
             {children}
 
-            <button className="popup__button popup__save-button" type="submit">
-              {buttonTitle}
+            <button
+              className="popup__button popup__save-button"
+              type="submit"
+              onClick={() => {
+                setButtonText("Отправляем...");
+                setTimeout(() => {
+                  setButtonText(buttonTitle);
+                }, 2000);
+              }}
+            >
+              {buttonText}
             </button>
           </form>
         </div>
