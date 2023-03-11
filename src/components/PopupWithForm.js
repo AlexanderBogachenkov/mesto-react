@@ -8,8 +8,11 @@ function PopupWithForm({
   onClose,
   children,
   onSubmit,
+  isLoading,
 }) {
-  const [buttonText, setButtonText] = React.useState(buttonTitle);
+  // const [buttonText, setButtonText] = React.useState(buttonTitle);
+
+  const buttonText = !isLoading ? buttonTitle : "Секундочку...";
 
   return (
     <>
@@ -36,12 +39,12 @@ function PopupWithForm({
             <button
               className="popup__button popup__save-button"
               type="submit"
-              onClick={() => {
-                setButtonText("Отправляем...");
-                setTimeout(() => {
-                  setButtonText(buttonTitle);
-                }, 2000);
-              }}
+              // onClick={() => {
+              //   setButtonText("Отправляем...");
+              //   setTimeout(() => {
+              //     setButtonText(buttonTitle);
+              //   }, 2000);
+              // }}
             >
               {buttonText}
             </button>

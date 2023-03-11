@@ -20,6 +20,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [cardForDelete, setCardForDelete] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(false);
 
   //При каждом рендере
   React.useEffect(() => {
@@ -61,29 +62,15 @@ function App() {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    if (!isLiked)
-      api
-        .addLikeToCard(card._id)
-        .then((newCard) => {
-          setCards((state) =>
-            state.map((c) => (c._id === card._id ? newCard : c))
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-    if (isLiked)
-      api
-        .deleteLikeFromCard(card._id)
-        .then((newCard) => {
-          setCards((state) =>
-            state.map((c) => (c._id === card._id ? newCard : c))
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    (!isLiked ? api.addLikeToCard(card._id) : api.deleteLikeFromCard(card._id))
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleDeletePlaceClick(card) {
@@ -93,6 +80,7 @@ function App() {
 
   function handleCardDelete(e) {
     e.preventDefault();
+    setIsLoading(true);
     api
       .deleteCard(cardForDelete._id)
       .then(() => {
@@ -100,20 +88,30 @@ function App() {
         setCards(newCards);
         closeAllPopups();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        //Добавим изменение в тексте кнопки
+        setIsLoading(false);
+      });
   }
 
   function handleUpdateUser(userData) {
+    setIsLoading(true);
     api
       .changeUserData(userData)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        //Добавим изменение в тексте кнопки
+        setIsLoading(false);
+      });
   }
 
   function handleUpdateAvatar(avatar) {
+    setIsLoading(true);
     api
       .changeAvatar(avatar)
       .then((res) => {
@@ -122,17 +120,26 @@ function App() {
       })
       .catch((err) => {
         alert(err);
+      })
+      .finally(() => {
+        //Добавим изменение в тексте кнопки
+        setIsLoading(false);
       });
   }
 
   function handleAddPlaceSubmit(data) {
+    setIsLoading(true);
     api
       .addCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        //Добавим изменение в тексте кнопки
+        setIsLoading(false);
+      });
   }
 
   //Закрываем все окна
@@ -165,22 +172,26 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          isLoading={isLoading}
         />
         <EditProfilePopup
           isOpen={isProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          isLoading={isLoading}
         />
         <EditAvatarPopup
           isOpen={isAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
         />
 
         <DeletePopup
           isOpen={isDeletePlacePopupOpen}
           onClose={closeAllPopups}
           onSubmit={handleCardDelete}
+          isLoading={isLoading}
         />
         <Footer />
       </div>

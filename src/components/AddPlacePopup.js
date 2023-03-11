@@ -1,13 +1,15 @@
-import React from "react";
+import { useEffect, useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const nameRef = React.useRef("");
-  const linkRef = React.useRef("");
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
+  const nameRef = useRef("");
+  const linkRef = useRef("");
 
-  React.useEffect(() => {
-    nameRef.current.value = "";
-    linkRef.current.value = "";
+  useEffect(() => {
+    if (isOpen) {
+      nameRef.current.value = "";
+      linkRef.current.value = "";
+    }
   }, [isOpen]);
 
   function handleSubmit(e) {
@@ -23,6 +25,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     <PopupWithForm
       isOpen={isOpen}
       onClose={onClose}
+      isLoading={isLoading}
       onSubmit={handleSubmit}
       name="add-place-form"
       title="Новое место"
